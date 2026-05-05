@@ -1,8 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { postAPI } from '../services/api';
-import { Post, CreatePostPayload, UpdatePostPayload, LikePostPayload } from '../types/Post';
-import { useDispatch } from 'react-redux';
-import { setError, setSuccessMessage } from '../store/uiSlice';
+import { CreatePostPayload, UpdatePostPayload } from '../types/Post';
+import toast from 'react-hot-toast';
 
 export const usePostsQuery = () => {
   return useQuery({
@@ -14,83 +13,76 @@ export const usePostsQuery = () => {
 
 export const useCreatePostMutation = () => {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
 
   return useMutation({
     mutationFn: (payload: CreatePostPayload) => postAPI.createPost(payload),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      dispatch(setSuccessMessage('Post created successfully!'));
+      toast.success('Post created successfully!');
     },
     onError: (error: any) => {
-      dispatch(setError(error?.response?.data?.error || 'Failed to create post'));
+      toast.error(error?.response?.data?.error || 'Failed to create post');
     },
   });
 };
 
 export const useUpdatePostMutation = () => {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
 
   return useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: UpdatePostPayload }) =>
       postAPI.updatePost(id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      dispatch(setSuccessMessage('Post updated successfully!'));
+      toast.success('Post updated successfully!');
     },
     onError: (error: any) => {
-      dispatch(setError(error?.response?.data?.error || 'Failed to update post'));
+      toast.error(error?.response?.data?.error || 'Failed to update post');
     },
   });
 };
 
 export const useDeletePostMutation = () => {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
 
   return useMutation({
     mutationFn: (id: string) => postAPI.deletePost(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      dispatch(setSuccessMessage('Post deleted successfully!'));
+      toast.success('Post deleted successfully!');
     },
     onError: (error: any) => {
-      dispatch(setError(error?.response?.data?.error || 'Failed to delete post'));
+      toast.error(error?.response?.data?.error || 'Failed to delete post');
     },
   });
 };
 
 export const useLikePostMutation = () => {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
 
   return useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload: LikePostPayload }) =>
-      postAPI.likePost(id, payload),
+    mutationFn: (id: string) => postAPI.likePost(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      dispatch(setSuccessMessage('Post liked!'));
+      toast.success('Post liked!');
     },
     onError: (error: any) => {
-      dispatch(setError(error?.response?.data?.error || 'Failed to like post'));
+      toast.error(error?.response?.data?.error || 'Failed to like post');
     },
   });
 };
 
 export const useDislikePostMutation = () => {
   const queryClient = useQueryClient();
-  const dispatch = useDispatch();
 
   return useMutation({
-    mutationFn: ({ id, payload }: { id: string; payload: LikePostPayload }) =>
-      postAPI.dislikePost(id, payload),
+    mutationFn: (id: string) => postAPI.dislikePost(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      dispatch(setSuccessMessage('Post disliked!'));
+      toast.success('Post disliked!');
     },
     onError: (error: any) => {
-      dispatch(setError(error?.response?.data?.error || 'Failed to dislike post'));
+      toast.error(error?.response?.data?.error || 'Failed to dislike post');
     },
   });
 };

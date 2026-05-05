@@ -1,5 +1,5 @@
 {
-  "name": "app-posts-frontend",
+  "name": "@app-posts/frontend",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -10,13 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
+    "@tanstack/react-query": "^5.28.0",
+    "axios": "^1.6.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@tanstack/react-query": "^5.28.0",
     "react-hook-form": "^7.48.0",
-    "@reduxjs/toolkit": "^1.9.7",
-    "react-redux": "^9.0.0",
-    "axios": "^1.6.2"
+    "react-hot-toast": "^2.6.0",
+    "react-redux": "^9.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
@@ -24,13 +25,13 @@
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "typescript": "^5.2.2",
-    "vite": "^5.0.8",
-    "tailwindcss": "^3.3.6",
     "postcss": "^8.4.32",
-    "autoprefixer": "^10.4.16"
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8"
   }
 }
