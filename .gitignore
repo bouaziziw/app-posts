@@ -1,11 +1,28 @@
+# ─── Dépendances ──────────────────────────────────────
 node_modules
-.env
+**/node_modules
+
+# ─── Build & dist ─────────────────────────────────────
 dist
 build
-coverage
+**/dist
+**/build
+
+# ─── Environnement ────────────────────────────────────
+.env
+**/.env
+*.env
+
+# ─── Logs ─────────────────────────────────────────────
 logs
 *.log
-*.env
+npm-debug.log*
+
+# ─── Couverture de tests ──────────────────────────────
+coverage
+**/coverage
+
+# ─── Éditeurs & OS ────────────────────────────────────
 .DS_Store
 .idea
 .vscode
@@ -13,3 +30,6 @@ logs
 *.ntvs*
 *.njsproj
 *.sln
+
+# ─── Vite / TypeScript ────────────────────────────────
+*.tsbuildinfo
