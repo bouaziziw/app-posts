@@ -1,6 +1,31 @@
-# Posts App Frontend
 
-A modern React 19 frontend application for managing posts with CRUD operations, built with TypeScript, Tailwind CSS, TanStack Query, React Hook Form, and Redux Toolkit.
+
+# Monorepo Backend + Frontend — `app-posts`
+
+## Context & Objective
+
+The `app-posts` project already contains two folders, `backend/` and `frontend/`, but suffered from a structural problem:
+- A single root `package.json` mixing backend dependencies (Express, Mongoose...) and frontend dependencies (React, Redux...)
+- No clear separation of responsibilities between the two workspaces
+- The root `dev` command only launched the backend
+
+The objective was to convert the project into a **clean monorepo** using **npm workspaces**, allowing:
+- Total isolation of dependencies for each workspace
+- Centralized scripts from the root (`dev`, `build`, `lint`...)
+- A single, deduplicated `node_modules` folder at the root (saving space)
+- Optional shared configuration (ESLint, Prettier, TypeScript)
+
+
+## Tech Stack
+
+- **React 19** - Latest React framework
+- **TypeScript** - Type-safe development
+- **Vite** - Fast build tool and dev server
+- **Tailwind CSS** - Utility-first CSS framework
+- **TanStack Query** - Powerful data fetching library
+- **React Hook Form** - Performant form handling
+- **Redux Toolkit** - Modern Redux with simplified API
+- **Axios** - HTTP client for API calls
 
 ## Features
 
@@ -14,73 +39,89 @@ A modern React 19 frontend application for managing posts with CRUD operations, 
 - 📋 **Form Handling** - React Hook Form for efficient form management
 - 🔄 **Real-time Updates** - Automatic data synchronization with backend
 
-## Tech Stack
+---
 
-- **React 19** - Latest React framework
-- **TypeScript** - Type-safe development
-- **Vite** - Fast build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **TanStack Query** - Powerful data fetching library
-- **React Hook Form** - Performant form handling
-- **Redux Toolkit** - Modern Redux with simplified API
-- **Axios** - HTTP client for API calls
-
-## Project Structure
+## Target Structure
 
 ```
-src/
-├── components/          # React components
-│   ├── CreatePost.tsx   # Form for creating new posts
-│   ├── PostCard.tsx     # Individual post display card
-│   ├── PostList.tsx     # List of all posts
-│   └── UpdatePost.tsx   # Modal for updating posts
-├── hooks/
-│   └── usePostsQuery.ts # Custom hooks for TanStack Query
-├── services/
-│   └── api.ts          # API client and endpoints
-├── store/
-│   ├── index.ts        # Redux store configuration
-│   └── uiSlice.ts      # Redux slice for UI state
-├── types/
-│   └── Post.ts         # TypeScript interfaces
-├── App.tsx             # Main app component
-├── App.css             # App styles
-├── main.tsx            # Entry point
-└── index.css           # Global styles with Tailwind
+app-posts/                        ← Monorepo Root
+├── package.json                  ← [MODIFY] Orchestrator (workspaces + scripts)
+├── .gitignore                    ← [MODIFY] Improved for the monorepo
+├── .env.example                  ← [NEW] Environment variables template
+├── README.md                     ← [MODIFY] Monorepo documentation
+│
+├── backend/                      ← Backend workspace (Express + MongoDB)
+│   ├── package.json              ← [NEW] Backend-specific dependencies
+│   ├── .env                      ← (existing, unversioned)
+│   ├── server.js                 ← (existing)
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   └── routes/
+│
+└── frontend/                     ← Frontend workspace (React + Vite + TS)
+    ├── package.json              ← [MODIFY] Nettoyé et aligné
+    ├── vite.config.ts            ← (existant)
+    └── src/
+    ├── components/          # React components
+    │   ├── CreatePost.tsx   # Form for creating new posts
+    │   ├── PostCard.tsx     # Individual post display card
+    │   ├── PostList.tsx     # List of all posts
+    │   └── UpdatePost.tsx   # Modal for updating posts
+    ├── hooks/
+    │   └── usePostsQuery.ts # Custom hooks for TanStack Query
+    ├── services/
+    │   └── api.ts          # API client and endpoints
+    ├── store/
+    │   ├── index.ts        # Redux store configuration
+    │   └── uiSlice.ts      # Redux slice for UI state
+    ├── types/
+    │   └── Post.ts         # TypeScript interfaces
+    ├── App.tsx             # Main app component
+    ├── App.css             # App styles
+    ├── main.tsx            # Entry point
+    └── index.css           # Global styles with Tailwind
 ```
 
-## Installation
 
-1. Install dependencies:
+---
+
+## Available Commands
+
 ```bash
+# Run backend + frontend in parallel (with distinct colors)
+npm run dev
+
+# Run only the backend (nodemon)
+npm run dev:backend
+
+# Run only the frontend (Vite)
+npm run dev:frontend
+
+# Production build for the frontend
+npm run build
+
+# Lint the frontend
+npm run lint
+
+# Install all dependencies
 npm install
 ```
 
-2. Make sure your backend server is running on `http://localhost:5000`
+---
 
-## Development
+## Verification Result (`npm ls --workspaces --depth=0`)
 
-Start the development server:
-
-```bash
-npm run dev
+```
+app-posts-monorepo@1.0.0
+├─┬ @app-posts/backend@1.0.0  → ./backend
+│ ├── bcryptjs, cors, dotenv, express, jsonwebtoken, mongoose, nodemailer, nodemon
+└─┬ @app-posts/frontend@0.0.1 → ./frontend
+  ├── react, react-dom, vite, typescript, tailwindcss, axios, redux, react-query...
 ```
 
-The app will open automatically at `http://localhost:3000`
-
-## Build
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-Preview the production build:
-
-```bash
-npm run preview
-```
+---
 
 ## API Integration
 
